@@ -5,6 +5,7 @@ import {
   Input,
   Message,
   Button,
+  Icon,
 } from 'semantic-ui-react'
 import styled from 'styled-components';
 import fetch from 'isomorphic-fetch';
@@ -94,7 +95,7 @@ class App extends Component {
           return response.json();
         })
         .then((data) => {
-          console.log('weather', data);
+          console.log(data);
           that.setState({
             ...that.state,
             loading: false,
@@ -165,17 +166,35 @@ class App extends Component {
               </Button>
             </SubForm>
           </SearchForm>
-          <Forecast
-            visible={this.state.weather}
-          >
-            Weather
-          </Forecast>
+          {
+            this.state.weather ?
+              <Forecast
+                visible={this.state.weather}
+              >
+                {this.state.weather.name} weather ||
+                Temp: {this.state.weather.main.temp} ||
+                Humidity: {this.state.weather.main.humidity}
+              </Forecast>
+            :
+              null
+          }
 
-          <Forecast
-            visible={this.state.forecast}
-          >
-            Forecast
-          </Forecast>
+          {
+            this.state.forecast ?
+              <Forecast
+                visible={this.state.forecast}
+              >
+                {this.state.forecast.city.name} forecast ||
+                <div>
+                  {this.state.forecast.list.forEach((value) => {
+                    console.log('not enough time to display this data')
+                    console.log(value);
+                  })}
+                </div>
+              </Forecast>
+            :
+              null
+          }
         </Body>
       </Main>
     );
